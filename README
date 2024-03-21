@@ -1,0 +1,11 @@
+# Programming Familiarization Pt.3 for ROS2
+
+## System requirements
+- Ubuntu 22.04
+- ROS2 Humble
+
+## General setup
+```bash
+$ sudo apt update
+$ sudo apt install ros-humble-apriltag ros-humble-apriltag-ros 
+```

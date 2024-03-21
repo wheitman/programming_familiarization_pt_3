@@ -3,3 +3,7 @@
 /convert-bags.py
 /src-ros1
 .DS_Store
+*.db3
+*.zip
+*.bag
+metadata.yaml
