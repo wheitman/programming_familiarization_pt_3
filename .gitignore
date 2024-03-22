@@ -7,3 +7,8 @@
 *.zip
 *.bag
 metadata.yaml
+build/
+install/
+log/
+.vscode/
+*.pyc

@@ -1,78 +1,38 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(motion_decoder)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  cv_bridge
-  image_transport
-  roscpp
-  sensor_msgs
-  std_msgs
-  geometry_msgs
-  tf
-  apriltags_ros
-)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(ament_cmake_auto REQUIRED) # The greatest package in history
+ament_auto_find_build_dependencies() # Find dependencies listed in package.xml
+#find_package(ament_cmake REQUIRED)
+#find_package(rclcpp REQUIRED)
+#find_package(std_msgs REQUIRED)
+#ind_package(sensor_msgs REQUIRED)
+find_package(OpenCV REQUIRED)
+include_directories( ${OpenCV_INCLUDE_DIRS} )
 
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_executable(image_converter src/image_converter.cpp)
+target_include_directories(image_converter PRIVATE include)
+ament_target_dependencies(image_converter rclcpp OpenCV tf2_ros apriltag_msgs std_msgs image_transport cv_bridge sensor_msgs)
 
-## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   sensor_msgs#   std_msgs
-# )
-
-catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES motion_decoder
-#  CATKIN_DEPENDS cv_bridge image_transport roscpp sensor_msgs std_msgs tf tf
-#  DEPENDS system_lib
-)
-
-include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
-)
-
-## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/motion_decoder.cpp
-# )
-
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Declare a C++ executable
-## With catkin_make all packages are built within a single CMake context
-## The recommended prefix ensures that target names across packages don't collide
 add_executable(motion_decoder src/motion_decoder.cpp)
+target_include_directories(motion_decoder PRIVATE include)
+ament_target_dependencies(motion_decoder rclcpp OpenCV tf2_ros apriltag_msgs std_msgs image_transport cv_bridge sensor_msgs)
 
-## Rename C++ executable without prefix
-## The above recommended prefix causes long target names, the following renames the
-## target back to the shorter version for ease of user use
-## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
-# set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
+target_link_libraries( image_converter ${OpenCV_LIBS} )
+target_link_libraries( motion_decoder ${OpenCV_LIBS} )
 
-## Add cmake target dependencies of the executable
-## same as for the library above
-add_dependencies(motion_decoder ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+install(TARGETS
+  image_converter
+  motion_decoder
+  DESTINATION lib/${PROJECT_NAME})
 
-## Specify libraries to link a library or executable target against
-target_link_libraries(motion_decoder
-  ${catkin_LIBRARIES}
-)
-
-
+ament_package()
