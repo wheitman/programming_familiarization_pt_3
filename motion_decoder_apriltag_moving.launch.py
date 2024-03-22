@@ -30,17 +30,9 @@ def generate_launch_description():
         remappings=[("image_rect", "/usb_cam/image_raw")],
     )
 
-    trajectory_server = Node(
-        package="trajectory_server",
-        executable="trajectory_server",
-        parameters=[
-            {
-                "target_frame_name": "tag36h11:0",
-                "source_frame_name": "usb_cam",
-            }
-        ],
-        remappings=[],
+    hector_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource("hector_trajectory_apriltag_moving.launch.py")
     )
 
     # To stop a node from running, simply remove it here.
-    return LaunchDescription([apriltag, image_converter, trajectory_server])
+    return LaunchDescription([apriltag, image_converter, hector_launch])

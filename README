@@ -1,11 +1,37 @@
 # Programming Familiarization Pt.3 for ROS2
 
 ## System requirements
+
 - Ubuntu 22.04
 - ROS2 Humble
 
 ## General setup
+
 ```bash
 $ sudo apt update
-$ sudo apt install ros-humble-apriltag ros-humble-apriltag-ros 
+$ sudo apt install ros-humble-apriltag ros-humble-apriltag-ros
+```
+
+Note that `hector_trajectory_server` has **not** been ported to ROS2, so I simply wrote a replacement.
+
+## Running
+
+From the repo root:
+
+```bash
+$ colcon build
+$ . install/setup.bash
+$ ros2 launch motion_decoder_camera_moving.launch.py # or one of the other three launch files
+```
+
+In a second terminal:
+
+```bash
+ros2 bag play src/motion_decoder/bags/AprilTag_Moving/
+```
+
+And in a third terminal:
+
+```bash
+$ rviz2
 ```

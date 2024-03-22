@@ -36,29 +36,6 @@ namespace mrsd
     void detectionsCb(const AprilTagDetectionArray::SharedPtr msg)
     {
       RCLCPP_INFO(get_logger(), "Got detections!");
-
-      // const std::vector<cv::Point3d> objectPoints{
-      //     {-tagsize / 2, -tagsize / 2, 0},
-      //     {+tagsize / 2, -tagsize / 2, 0},
-      //     {+tagsize / 2, +tagsize / 2, 0},
-      //     {-tagsize / 2, +tagsize / 2, 0},
-      // };
-
-      // const std::vector<cv::Point2d> imagePoints{
-      //     {detection->p[0][0], detection->p[0][1]},
-      //     {detection->p[1][0], detection->p[1][1]},
-      //     {detection->p[2][0], detection->p[2][1]},
-      //     {detection->p[3][0], detection->p[3][1]},
-      // };
-
-      // cv::Matx33d cameraMatrix;
-      // cameraMatrix(0, 0) = intr[0]; // fx
-      // cameraMatrix(1, 1) = intr[1]; // fy
-      // cameraMatrix(0, 2) = intr[2]; // cx
-      // cameraMatrix(1, 2) = intr[3]; // cy
-
-      // cv::Mat rvec, tvec;
-      // cv::solvePnP(objectPoints, imagePoints, cameraMatrix, {}, rvec, tvec);
     }
   };
 }
